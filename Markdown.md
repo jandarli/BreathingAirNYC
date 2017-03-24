@@ -24,12 +24,52 @@ Class Project Proposal
 &nbsp;
 
 ## Project Objectives
-The main objective of this project is to create an interactive, exploratory visualization that effectively shows the data in the tree census, air quality complaints and air quality datasets. To be more specific, we are seeking to answer the following questions:
+&nbsp;&nbsp;&nbsp;The main objective of this project is to create an interactive, exploratory visualization that effectively shows the data in the tree census, air quality complaints and air quality datasets. To be more specific, we are seeking to answer the following questions:
 * Is there a linkage between the number of trees in a locale and the air quality?
 * Is air quality the only factor affecting the number of air quality complaints>
 * Is there a relationship between asthma related emergency room visits and air quality complaints the United Hospital Foundation neighbourhoods?
 
+&nbsp;
+&nbsp;
 
+## Data
+&nbsp;&nbsp;&nbsp;All the data used in this project can be was sourced from http://opendata.cityofnewyork.us/, which is the NYC Open Data Portal. Specifically, the datasets and links to them are that we will use are:
+* Tree Census Data: https://data.cityofnewyork.us/Environment/2015-Street-Tree-Census-Tree-Data/uvpi-gqnh/data
+* Air Quality Data: https://data.cityofnewyork.us/Environment/Air-Quality/c3uy-2p5r/data
+* Air Quality Complaints: https://data.cityofnewyork.us/Social-Services/Air-Quality/b5f6-22ra
 
+&nbsp;&nbsp;&nbsp; From the Air Quality Complaints data, in order to show answer the question regarding the existence of a relationship between asthmas related emergency room visit and air quality complaint, the data may be partitioned or another dataset with that subset of data may be used. 
 
+&nbsp;
+&nbsp;
+
+## Data Processing
+&nbsp;&nbsp;&nbsp;
+
+&nbsp;
+&nbsp;
+
+## Visualization
+&nbsp;&nbsp;&nbsp;
+
+&nbsp;
+&nbsp;
+
+## Must-Have Features
+&nbsp;&nbsp;&nbsp;
+
+&nbsp;
+&nbsp;
+
+## Optional Features
+&nbsp;&nbsp;&nbsp;
+
+&nbsp;
+&nbsp;
+
+## Project Schedule
+&nbsp;&nbsp;&nbsp;
+
+&nbsp;
+&nbsp;
 
