@@ -5,8 +5,7 @@ Class Project Proposal
 ### Team Members: 
 * Janice Darling 
 * Jetlir Lajqi 
-* Wantong Lin  
-
+* Wantong Lin 
 &nbsp;
 &nbsp;
 
@@ -15,7 +14,11 @@ Class Project Proposal
 
 &nbsp;&nbsp;&nbsp;Many visualizations problems similar to the one descibed, choose to showcase data by employing map visualization techniques such as cartograms. However, many times these visualizations fall short of their goal and into the same catogories of problems. For example, the problem of distortion of boundaries adding layers to maps may occur when employing the cartogram techniques, which is often an important feature of a map. This not only takes away from the ability of the visualization to to accurately present the data in an easily comprehensible manner, but also from the ability to identify and solve the underlying problems represented by the data. 
 
+&nbsp;
+&nbsp;
 
+## Background and Motivation
+&nbsp;&nbsp;&nbsp;The main motivation behind this project was initially to compare datasets with the same indicators on two cities after a suggestion from the professor. In an attempt to do this, we searched for datasets containing the same indicators so as to minimize the amount of work that be needed to clean the data. However, the tree coverage datasets for both cities uttimately proved to be too different. Therefore we decided to focus our attention on just one city - New York City. Another dataset containing compalints recieved by 311 about air quality was found and we thought initially it might be interesting to see if there are any relationships between the data. After, speaking to a expert in urban visualization, the incorporation of a dataset containing air quality readings was suggestions. Taking that suggestion into mind, we have decided to settle on creating a visualization from tree census data, air quality recordings and air quality complaints data  to show relationships if any betwen the three.
 
 
 
