@@ -7,6 +7,9 @@ Class Project Proposal
 * Jetlir Lajqi 
 * Wantong Lin  
 
+&nbsp;
+&nbsp;
+
 ## Abstract  
 &nbsp;&nbsp;&nbsp;For this project, the visualization problem will address the relationship between air quality, air quality complaints and tree coverage in the urban setting of  New York City. The problem involves properly and effectively creating visualizations that will show the existence of any linkages between the datasets related to the aformentioned topics. Also, it is necessary to take into consideration other factors affecting air quality and thus any attempt to create a visualization showcasing its relationship to other factors that falls outside of the scope of this project.   
 
