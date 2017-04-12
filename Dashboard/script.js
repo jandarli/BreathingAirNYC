@@ -1,5 +1,5 @@
 //Create account on Mapbox for access token or email for accessToken
-accessToken = ''
+accessToken = '';
 
 // initialize the map
  var map = L.map('map').setView([40.730610,-73.935242], 12);
@@ -12,4 +12,6 @@ L.tileLayer('https://api.mapbox.com/styles/v1/jdarlin000/cj1e62kle002d2rtc41j3rk
     maxZoom: 17,
     minZoom: 9
 }).addTo(map);
+
+L.geoJson(zips).addTo(map);
 
