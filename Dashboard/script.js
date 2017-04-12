@@ -13,5 +13,15 @@ L.tileLayer('https://api.mapbox.com/styles/v1/jdarlin000/cj1e62kle002d2rtc41j3rk
     minZoom: 9
 }).addTo(map);
 
-L.geoJson(zips).addTo(map);
+
+function style(feature) {
+    return {
+	fill: false,
+        weight: 2,
+        opacity: 1,
+        color: 'blue',
+        dashArray: '3'
+    };
+}
+L.geoJson(zips, {style: style}).addTo(map);
 
