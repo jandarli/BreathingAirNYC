@@ -1,5 +1,5 @@
 //Create account on Mapbox for access token or email for accessToken
-accessToken = '';
+accessToken = 'pk.eyJ1IjoiamRhcmxpbjAwMCIsImEiOiJjajEzeDhtMXUwMXozMzhsamhwMTVjM3d0In0.89axfVJUo6TZlva9kRyvbA';
 
 // initialize the map
  var map = L.map('map').setView([40.730610,-73.935242], 12);
@@ -19,7 +19,7 @@ function style(feature) {
 	fill: false,
         weight: 2,
         opacity: 1,
-        color: 'blue',
+        color: 'gray',
         dashArray: '3'
     };
 }
