@@ -24,4 +24,6 @@ function style(feature) {
     };
 }
 L.geoJson(zips, {style: style}).addTo(map);
-
+d3.csv("2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
+	console.log(data[0].latitude);
+})
