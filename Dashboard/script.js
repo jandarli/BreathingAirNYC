@@ -1,5 +1,5 @@
 //Create account on Mapbox for access token or email for accessToken
-accessToken = '';
+accessToken = 'pk.eyJ1IjoiamRhcmxpbjAwMCIsImEiOiJjajEzeDhtMXUwMXozMzhsamhwMTVjM3d0In0.89axfVJUo6TZlva9kRyvbA';
 
 // initialize the map
  var map = L.map('map').setView([40.730610,-73.935242], 12);
@@ -31,4 +31,10 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 	treepoints = data.map(function(d) {
 		return [d.latitude, d.longitude];
 	});	
+	var heat = L.heatLayer(treepoints, {
+		radius: 7.5,
+		blur: 10,
+	 }).addTo(map);
 })
+
+
