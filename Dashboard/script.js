@@ -23,7 +23,12 @@ function style(feature) {
         dashArray: '3'
     };
 }
+
+var treepoints = [];
+
 L.geoJson(zips, {style: style}).addTo(map);
-d3.csv("2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
-	console.log(data[0].latitude);
+d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
+	treepoints = data.map(function(d) {
+		return [d.latitude, d.longitude];
+	});	
 })
