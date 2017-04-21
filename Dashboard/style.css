@@ -2,7 +2,7 @@
   height: 100%;
 }
 
-button {
+#data-controls {
   position:absolute;
   top:410px;
 }
