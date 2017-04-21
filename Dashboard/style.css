@@ -3,6 +3,11 @@
 }
 
 #data-controls {
-  position:absolute;
-  top:410px;
+	width: 300px;
+	height: 100px;
+	position: absolute;
+	top: 200;
+	border: 1px solid grey;
+	background-color: #f2f4f7;
+	box-shadow: 2px 2px 1px #888888
 }
