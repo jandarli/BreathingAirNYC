@@ -11,8 +11,42 @@
 <body>
   <div id="map"></div>
   <div id="data-controls">
-  <input type="radio" name="layer" value="tree" onclick="treePoints();"> Tree Coverage <br> 
-  <input type="radio" name="layer" value="aqq" onclick="aqPoints();"> Air Quality Complaints<br>
+  <div>
+    <input type="radio" name="level0" value="A" id="A" />
+    <label for="A">Tree Coverage</label>
+  </div>
+  <div>
+    <input type="radio" name="level0" value="B" id="B" />
+    <label for="B">Air Quality Complaints</label>
+    <div class="sub1">
+      <div>
+        <input type="radio" name="level1" value="B0" id="B0" />
+        <label for="B0"> Complaints by Zip Code </label>
+      </div>
+      <div>
+        <input type="radio" name="level1" value="B1" id="B1" />
+        <label for="B1"> Complaints By Density</label>
+      </div>
+    </div>
+  </div>
+  <div>
+    <input type="radio" name="level0" value="C" id="C" />
+    <label for="C">Air Quality Measures</label>
+    <div class="sub1">
+      <div>
+        <input type="radio" name="level1" value="C0" id="C0" />
+        <label for="C0"> Pollutant A </label>
+      </div>
+      <div>
+        <input type="radio" name="level1" value="C1" id="C1" />
+        <label for="C1"> Pollutant B</label>
+      </div>
+           <div>
+            <input type="radio" name="level1" value="C2" id="C2" />
+            <label for="C2"> Asthma Discharges</label>
+          </div>
+        </div>
+      </div>
   </div>
   <script src="http://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"> </script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
