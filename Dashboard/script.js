@@ -29,7 +29,13 @@ function style(feature) {
 var heat;
 var asthmaDischarges;
 
-L.geoJson(zips, {style: style}).addTo(map);;
+L.geoJson(zips, {style: style}).addTo(map);
+
+// Initialize geocoder
+L.mapbox.accessToken= accessToken;
+var geocoder = L.mapbox.geocoder('mapbox.places');
+
+
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
 	var treepoints = data.map(function(d) {
 		return [d.latitude, d.longitude];
