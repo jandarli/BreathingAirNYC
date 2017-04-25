@@ -24,12 +24,14 @@ function style(feature) {
     };
 }
 
-var treepoints = [];
-var heat;
 
-L.geoJson(zips, {style: style}).addTo(map);
+// Define the layers 
+var heat;
+var asthmaDischarges;
+
+L.geoJson(zips, {style: style}).addTo(map);;
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
-	treepoints = data.map(function(d) {
+	var treepoints = data.map(function(d) {
 		return [d.latitude, d.longitude];
 	});	
 	heat = L.heatLayer(treepoints, {
@@ -43,7 +45,15 @@ function treePoints() {
 
 };
 
-function aqPoints(){
-	console.log("pass");
+function aqPoints1(){
 	map.removeLayer(heat);
+};
+function aqPoints(){
+	d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_discharges_12_14.csv", function(data){
+		var asthmaD = data.map(function(d){
+			return [d.zipcode];
+		});
+		console.log(asthmaD[0]);
+	});
+	
 };
