@@ -31,7 +31,7 @@ var asthmaDischarges;
 
 L.geoJson(zips, {style: style}).addTo(map);
 
-
+//  Load the the tree data
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
 	var treepoints = data.map(function(d) {
 		return [d.latitude, d.longitude];
@@ -57,12 +57,24 @@ function treePoints() {
 function aqPoints1(){
 	map.removeLayer(heat);
 };
+
+// Create the geocoder
+var geocoder = new google.maps.Geocoder();
+
+
+// Load the asthma data
 function aqPoints(){
 	d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_discharges_12_14.csv", function(data){
 		var asthmaD = data.map(function(d){
 			return [d.zipcode];
 		});
-		console.log(asthmaD[0]);
+		geocoder.geocode( { 'address': String(asthmaD[0])}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+			    	var latitude = results[0].geometry.location.lat();
+   			    	var longitude = results[0].geometry.location.lng();
+				console.log(latitude, longitude)   			 
+    			} 
+		});
 	});
 	
 };
