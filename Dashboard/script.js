@@ -54,8 +54,10 @@ function treePoints() {
 
 };
 
-function aqPoints1(){
-	map.removeLayer(heat);
+function aqPoints(){
+	if (map.hasLayer(heat) == true){
+		map.removeLayer(heat);
+	}
 };
 
 // Create the geocoder
@@ -63,7 +65,7 @@ var geocoder = new google.maps.Geocoder();
 
 
 // Load the asthma data
-function aqPoints(){
+function aqPoints1(){
 	d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_discharges_12_14.csv", function(data){
 		var asthmaD = data.map(function(d){
 			return [d.zipcode];
