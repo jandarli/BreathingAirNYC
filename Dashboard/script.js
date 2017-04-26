@@ -37,14 +37,14 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 		return [d.latitude, d.longitude];
 	});	
 	heat = L.heatLayer(treepoints, {
-		radius: 7.5,
-		blur: 15,
+		radius: 10,
+		blur: 18,
 		gradient: {
-		         0.2: '#ffffb2',
+		         0.2: '#f9d884',
      			 0.4: '#fd8d3c',
 			 0.6: '#fd8d3c',
 		    	 0.8: '#f03b20',
-     			 1: '#bd0026'
+     			 1: '#e2022f'
    		 }		
 	 });
 });
