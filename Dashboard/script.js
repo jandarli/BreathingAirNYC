@@ -27,7 +27,7 @@ function style(feature) {
 
 // Define the layers 
 var heat;
-var asthmaDischarges;
+var asthmaDischarges = [];
 
 L.geoJson(zips, {style: style}).addTo(map);
 
@@ -36,6 +36,7 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 	var treepoints = data.map(function(d) {
 		return [d.latitude, d.longitude];
 	});	
+	
 	heat = L.heatLayer(treepoints, {
 		radius: 10,
 		blur: 18,
@@ -70,13 +71,14 @@ function aqPoints1(){
 		var asthmaD = data.map(function(d){
 			return [d.zipcode];
 		});
-		geocoder.geocode( { 'address': String(asthmaD[0])}, function(results, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
-			    	var latitude = results[0].geometry.location.lat();
-   			    	var longitude = results[0].geometry.location.lng();
-				console.log(latitude, longitude)   			 
-    			} 
-		});
-	});
-	
+		for(var i = 0; i < 5; i++){
+			geocoder.geocode( { 'address': String(asthmaD[i])}, function(results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
+				    	var lat = results[0].geometry.location.lat();
+   				    	var lng = results[0].geometry.location.lng();
+					console.log(lat, lng);   			 
+    				} 
+			});
+		}
+	});	
 };
