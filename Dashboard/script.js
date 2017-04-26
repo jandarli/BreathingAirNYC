@@ -31,10 +31,6 @@ var asthmaDischarges;
 
 L.geoJson(zips, {style: style}).addTo(map);
 
-// Initialize geocoder
-L.mapbox.accessToken= accessToken;
-var geocoder = L.mapbox.geocoder('mapbox.places');
-
 
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
 	var treepoints = data.map(function(d) {
@@ -42,7 +38,14 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 	});	
 	heat = L.heatLayer(treepoints, {
 		radius: 7.5,
-		blur: 10,
+		blur: 15,
+		gradient: {
+		         0.2: '#ffffb2',
+     			 0.4: '#fd8d3c',
+			 0.6: '#fd8d3c',
+		    	 0.8: '#f03b20',
+     			 1: '#bd0026'
+   		 }		
 	 });
 });
 
