@@ -28,12 +28,12 @@ function style(feature) {
 // Define the layers 
 var heat;
 var asthmaDischarges = [];
-
+var treepoints = [];
 L.geoJson(zips, {style: style}).addTo(map);
 
 //  Load the the tree data
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
-	var treepoints = data.map(function(d) {
+	treepoints = data.map(function(d) {
 		return [d.latitude, d.longitude];
 	});	
 	
@@ -50,9 +50,27 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 	 });
 });
 
+
+// Load the asthma data 
+// Create the geocoder
+var geocoder = new google.maps.Geocoder();
+d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_discharges_12_14.csv", function(data){
+	var asthmaD = data.map(function(d){
+		return [d.zipcode];
+	});
+	for(var i = 0; i < 5; i++){
+		geocoder.geocode( { 'address': String(asthmaD[i])}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				    var lat = results[0].geometry.location.lat();
+   				    var lng = results[0].geometry.location.lng();
+				    asthmaDischarges.push([lat, lng]);   			 
+    				} 
+			});
+		}
+	});
+	
 function treePoints() {
 	map.addLayer(heat);
-
 };
 
 function aqPoints(){
@@ -61,24 +79,8 @@ function aqPoints(){
 	}
 };
 
-// Create the geocoder
-var geocoder = new google.maps.Geocoder();
-
 
 // Load the asthma data
 function aqPoints1(){
-	d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_discharges_12_14.csv", function(data){
-		var asthmaD = data.map(function(d){
-			return [d.zipcode];
-		});
-		for(var i = 0; i < 5; i++){
-			geocoder.geocode( { 'address': String(asthmaD[i])}, function(results, status) {
-				if (status == google.maps.GeocoderStatus.OK) {
-				    	var lat = results[0].geometry.location.lat();
-   				    	var lng = results[0].geometry.location.lng();
-					console.log(lat, lng);   			 
-    				} 
-			});
-		}
-	});	
+	console.log(asthmaDischarges[0]);
 };
