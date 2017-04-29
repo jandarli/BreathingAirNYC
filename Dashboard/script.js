@@ -63,12 +63,16 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_di
 		return [d.Discharges];
 	});
 
+	function pushMarkers(data){
+		console.log(data);
+	}
+	
 	for(var i = 0; i < 5; i++){
 		geocoder.geocode( { 'address': String(asthmaD[i])}, function(results, status) {
 			if (status == google.maps.GeocoderStatus.OK) {
 				    var lat = results[0].geometry.location.lat();
-   				    var lng = results[0].geometry.location.lng();
-				    asthmaDischarges.push([lat, lng]);   			 
+   				    var lng = results[0].geometry.location.lng();;
+				    pushMarkers([lat, lng]); 
     				} 
 			});
 	}
