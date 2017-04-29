@@ -51,7 +51,11 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 });
 
 
-// Load the asthma data 
+// Load the asthma data markers
+markers = [];
+gmarkers = [];
+var markerCluster = L.markerClusterGroup();
+ 
 // Create the geocoder
 var geocoder = new google.maps.Geocoder();
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_discharges_12_14.csv", function(data){
@@ -62,22 +66,29 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_di
 	var asthmaC = data.map(function(d){
 		return [d.Discharges];
 	});
-
-	function pushMarkers(data){
-		console.log(data);
-	}
 	
-	for(var i = 0; i < 5; i++){
-		geocoder.geocode( { 'address': String(asthmaD[i])}, function(results, status) {
+
+	for (var i=0, j=0; i<=asthmaC.length; i++, j++){
+ 		 for(var k = 0; k < Number(asthmaC[i]); k++){
+    		 	markers.push(asthmaD[j]);
+  		}
+	}
+
+/*
+	function pushgmarkers(data){
+		gmarkers.push(data);
+		console.log(gmarkers);
+	}
+
+	for(var m = 0; m < 5; m++){
+		geocoder.geocode( { 'address': String(markers[k])}, function(results, status) {
 			if (status == google.maps.GeocoderStatus.OK) {
 				    var lat = results[0].geometry.location.lat();
-   				    var lng = results[0].geometry.location.lng();;
-				    pushMarkers([lat, lng]); 
+   				    var lng = results[0].geometry.location.lng();
+ 				    pushgmarkers([lat, lng]);
     				} 
 			});
-	}
-
-	
+	} */
 });
 	
 function treePoints() {
