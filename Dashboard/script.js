@@ -54,17 +54,20 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 // Load the asthma data markers
 markers = [];
 var markerCluster = L.MarkerClusterGroup();
-var markerarr = []
-// Create the geocoder
-var geocoder = new google.maps.Geocoder();
+
+
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_discharges_12_14.csv", function(data){
-	var asthmaD = data.map(function(d){
+	var zipcodes = data.map(function(d){
 		return [d.zipcode];
 	});
 
-	var asthmaC = data.map(function(d){
+	var counts = data.map(function(d){
 		return [d.Discharges];
 	});
+	
+	var coord = data.map(function (d){
+		return [d.Lat, d.Lng];
+	});;
 	
 });
 	
