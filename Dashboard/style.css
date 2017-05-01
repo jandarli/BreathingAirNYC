@@ -32,3 +32,44 @@ input[type="radio"]{
     display: block;
     margin-left: 40px;
 }
+
+.circle1 {
+    width: 30px;
+    height: 30px;
+    line-height: 32px;
+    background-color: greenyellow;
+    text-align: center;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.circle2 {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    background-color: yellow;
+    text-align: center;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.circle3 {
+    width: 35px;
+    height: 35px;
+    line-height: 32px;
+    background-color: orange;
+    text-align: center;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.circle4 {
+    width: 40px;
+    height: 40px;
+    line-height: 32px;
+    background-color: orangered;
+    text-align: center;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
