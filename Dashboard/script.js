@@ -53,7 +53,13 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 
 // Load the asthma data markers
 markers = [];
-var markerCluster = L.markerClusterGroup();
+var markerCluster = L.markerClusterGroup({
+			iconCreateFunction: function (cluster) {
+				var marks = cluster.getAllChildMarkers();
+       			        var html = '<div class="circle">' + marks.length + '</div>';
+				        return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(32, 32) });
+    			}
+		   });
 
 
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_discharges_12_14.csv", function(data){

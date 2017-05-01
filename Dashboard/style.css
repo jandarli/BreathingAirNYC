@@ -32,3 +32,13 @@ input[type="radio"]{
     display: block;
     margin-left: 40px;
 }
+
+.circle {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    background-color: yellow;
+    text-align: center;
+    border-radius: 50%;
+    opacity: 0.8;
+}
