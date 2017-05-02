@@ -55,20 +55,9 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 markers = [];
 var markerCluster = L.markerClusterGroup({
 			iconCreateFunction: function (cluster) {
-				var marks = cluster.getChildCount();
-				if(marks < 100){
-					var html = '<div class="circle1">' + marks + '</div>';
-                                        return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(30, 30) });
-				} else if ((marks > 100) && (marks < 200)){
-					var html = '<div class="circle2">' + marks + '</div>';
-                                        return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(32, 32) });
-				} else if ((marks > 200) && (marks < 300)){
-					var html = '<div class="circle3">' + marks + '</div>';
-                                        return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(35, 35) });
-				} else {
-					var html = '<div class="circle4">' + marks + '</div>';
-                                        return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(40, 40) });
-				}
+				var marks = cluster.getAllChildMarkers();
+       			        var html = '<div class="circle">' + marks.length + '</div>';
+				        return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(32, 32) });
     			}
 		   });
 
