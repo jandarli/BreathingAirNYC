@@ -108,5 +108,6 @@ function aqPoints(){
 
 // Load the asthma data
 function aqPoints1(){
+	/* Add cluster Layer */
 	map.addLayer(markerCluster);
 };
