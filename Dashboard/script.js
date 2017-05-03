@@ -59,10 +59,10 @@ var markerCluster = L.markerClusterGroup.layerSupport({
  				if(marks < 100){
  					var html = '<div class="circle1">' + marks + '</div>';
                                          return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(30, 30) });
- 				} else if ((marks > 100) && (marks < 200)){
+ 				} else if ((marks >= 100) && (marks < 400)){
  					var html = '<div class="circle2">' + marks + '</div>';
                                          return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(32, 32) });
- 				} else if ((marks > 200) && (marks < 300)){
+ 				} else if ((marks >= 400) && (marks < 800)){
  					var html = '<div class="circle3">' + marks + '</div>';
                                          return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(35, 35) });
  				} else {
