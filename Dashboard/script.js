@@ -53,7 +53,7 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 
 // Load the asthma data markers
 markers = [];
-var markerCluster = L.markerClusterGroup({
+var markerCluster = L.markerClusterGroup.layerSupport({
 			iconCreateFunction: function (cluster) {
  				var marks = cluster.getChildCount();
  				if(marks < 100){
@@ -93,7 +93,6 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_di
 		var mark = new L.marker(markers[m]);
 		markerCluster.addLayer(mark);
 	}
-	map.addLayer(markerCluster);
 });
 	
 function treePoints() {
@@ -110,5 +109,5 @@ function aqPoints(){
 // Load the asthma data
 function aqPoints1(){
 	/* Add cluster Layer */
-	map.addLayer(markerCluster);
+	markerCluster.addTo(map);
 };
