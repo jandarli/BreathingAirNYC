@@ -36,19 +36,21 @@ plt.show()
 '''
 
 # Get the KDE values for the air Quality Complaints
-air_path = 'Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/Air_Quality_Complaints.csv'
+air_path = '/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/Air_Quality_Complaints.csv'
 air_df = pd.read_csv(air_path, usecols=['Latitude', 'Longitude'])
-air_latitudes = air_df.latitude.tolist()
-air_longitudes = air_df.longitude.tolist()
+air_latitudes = air_df.Latitude.tolist()
+air_longitudes = air_df.Longitude.tolist()
 
 xmina, xmaxa = min(air_latitudes), max(air_latitudes)
 ymina, ymaxa = min(air_longitudes), max(air_longitudes)
 
+
 X_air, Y_air = np.mgrid[xmina:xmaxa:100j, ymina:ymaxa:100j]
+X_air[np.isnan(X_air)] = 0
+Y_air[np.isnan(Y_air)] = 0
 positionsa = np.vstack([X_air.ravel(), Y_air.ravel()])
+positionsa[np.isnan(positionsa)] = 0
 valuesa = np.vstack([air_latitudes, air_longitudes])
+valuesa[np.isnan(valuesa)] = 0
 kernela = stats.gaussian_kde(valuesa)
 Z_air = np.reshape(kernela(positionsa).T, X_air.shape)
-
-
-
