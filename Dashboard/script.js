@@ -69,7 +69,9 @@ var markerCluster = L.markerClusterGroup.layerSupport({
  					var html = '<div class="circle4">' + marks + '</div>';
                                          return L.divIcon({ html: html, className: 'mycluster', iconSize: L.point(40, 40) });
  				}
-     			}	   
+     			}, 
+			animate: true,
+			showCoverageOnHover: false
 	
 		});
 
