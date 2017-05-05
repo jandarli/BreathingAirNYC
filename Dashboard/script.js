@@ -10,7 +10,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/jdarlin000/cj1e62kle002d2rtc41j3rk
   // attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     accessToken: accessToken,
     maxZoom: 18,
-    minZoom: 7
+    minZoom: 8
 }).addTo(map);
 
 
@@ -84,6 +84,29 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_di
 		markerCluster.addLayer(mark);
 	}
 })
+
+function getColor(d) {
+	return d > 600 ? '#800026' :
+	       d > 500  ? '#BD0026' :
+	       d > 400  ? '#E31A1C' :
+	       d > 300  ? '#FC4E2A' :
+	       d > 200  ? '#FD8D3C' :
+	       d > 100   ? '#FEB24C' :
+	                  '#FFEDA0';
+}
+
+function cStyle(feature){
+	return {
+		fillColor: getColor(feature.properties.BoroCD),
+	        weight: 2,
+	        opacity: 1,
+		color: 'white',
+	        dashArray: '3',
+	        fillOpacity: 0.7
+	};
+}
+
+L.geoJson(community_districts, {style: cStyle}).addTo(map);
 
 
 function clearMap(){
