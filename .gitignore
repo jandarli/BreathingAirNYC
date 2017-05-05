@@ -2,4 +2,5 @@
 .ipynb_checkpoints/
 Dashboard/._zipcodes.geojson
 accessToken.txt
-accessToken.py 
+accessToken.py
+Dashboard/._community_districts.geojson

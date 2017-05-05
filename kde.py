@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
-
+import csv
 
 
 # Get the KDE values for the tree data 
@@ -37,7 +37,9 @@ plt.show()
 
 # Get the KDE values for the air Quality Complaints
 air_path = '/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/Air_Quality_Complaints.csv'
-air_df = pd.read_csv(air_path, usecols=['Latitude', 'Longitude'])
+sr = range(1, 222)
+fieldsa = ['Latitude', 'Longitude', 'Incident Zip']
+air_df = pd.read_csv(air_path, usecols=fieldsa, skiprows=list(sr), nrows=207)
 air_latitudes = air_df.Latitude.tolist()
 air_longitudes = air_df.Longitude.tolist()
 
