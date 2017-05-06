@@ -63,6 +63,7 @@ var markerCluster = L.markerClusterGroup.layerSupport({
 	
 		});
 zipLayer = L.geoJson(zips)
+communityLayer = L.geoJson(community_districts)
 
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_discharges_12_14.csv", function(data){
 	var counts = data.map(function(d){
@@ -85,32 +86,9 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_di
 	}
 })
 
-function getColor(d) {
-	return d > 600 ? '#800026' :
-	       d > 500  ? '#BD0026' :
-	       d > 400  ? '#E31A1C' :
-	       d > 300  ? '#FC4E2A' :
-	       d > 200  ? '#FD8D3C' :
-	       d > 100   ? '#FEB24C' :
-	                  '#FFEDA0';
-}
-
-function cStyle(feature){
-	return {
-		fillColor: getColor(feature.properties.BoroCD),
-	        weight: 2,
-	        opacity: 1,
-		color: 'white',
-	        dashArray: '3',
-	        fillOpacity: 0.7
-	};
-}
-
-L.geoJson(community_districts, {style: cStyle}).addTo(map);
-
 
 function clearMap(){
-	layers = [heat, markerCluster, zipLayer];
+	layers = [heat, markerCluster, zipLayer, communityLayer];
 	for(var i = 0; i < layers.length; i++){
 		map.removeLayer(layers[i]);
 	}
@@ -158,4 +136,53 @@ function aqPoints1(){
 
 	/* Add cluster Layer */
 	markerCluster.addTo(map);
+}
+
+function pm25c(){
+/* Read Air Quality Measures Data */
+/* Arrays for Air Quality Measures */
+pm25 = []
+d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/Fine Particulate Matter (PM2.5).csv", function(data){
+	pm25 = data.map(function(p){
+			return [p.Year,p.Geography_id, p.Mean];
+		}); 
+
+	function getColor(d){
+		var color;
+		for(var i = 0; i < pm25.length; i++){
+			if((Number(d) == Number(pm25[i][1])) && (pm25[i][0] == 'Annual Average 2014')){
+				if(Number(pm25[i][2]) > 14){
+					color = '#800026';
+				} else if(Number(pm25[i][2]) > 11){
+					color = '#BD0026';
+				} else if(Number(pm25[i][2]) > 10){
+					color = '#E31A1C';
+				} else if(Number(pm25[i][2]) > 9.5){
+					color = '#FC4E2A';
+				} else if(Number(pm25[i][2]) > 9){
+                                        color = '#FD8D3C';
+				}  else if(Number(pm25[i][2]) > 8.7){
+                                        color = '#FEB24C';
+				} else if(Number(pm25[i][2]) > 8){
+                                        color = '#FED976';
+                                } else{
+					color = '#FFEDA0';
+				}
+			}
+		}
+		return color;
+	};
+
+	function cStyle(feature){
+		return {
+			fillColor: getColor(feature.properties.BoroCD),
+		        weight: 2,
+	        	opacity: 1,
+			color: 'white',
+		        dashArray: '3',
+	        	fillOpacity: 0.7
+		};
+	}
+	communityLayer = L.geoJson(community_districts, {style: cStyle}).addTo(map);
+	});	
 };
