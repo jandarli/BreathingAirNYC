@@ -208,7 +208,6 @@ function blackCarbon(){
 			bc = data.map(function(p){
 				return [p.Year,p.Geography_id, p.Mean];
 			}); 
-			console.log(bc[0][2]);
 			function getColor(d){
 				var color;
 				for(var i = 0; i < bc.length; i++){
@@ -232,24 +231,25 @@ function blackCarbon(){
 						}
 					}
 				}
-			return color;
-		};
-
-		function bStyle(feature){
-			return {
-				fillColor: getColor(feature.properties.BoroCD),
-		       		weight: 2,
-	        		opacity: 1,
-				color: 'white',
-		        	dashArray: '3',
-	        		fillOpacity: 0.7
+				return color;
 			};
-		}
-		communityLayer1 = L.geoJson(community_districts, {style: bStyle}).addTo(map);
-	})} else {
+
+			function bStyle(feature){
+				return {
+					fillColor: getColor(feature.properties.BoroCD),
+		       			weight: 2,
+	        			opacity: 1,
+					color: 'white',
+		        		dashArray: '3',
+	        			fillOpacity: 0.7
+				};
+			}
+			communityLayer1 = L.geoJson(community_districts, {style: bStyle}).addTo(map);
+		})
+	} else {
 		if(map.hasLayer(communityLayer1)){
 			map.removeLayer(communityLayer1)
 		}
-	    }	
-	}
+	}	
+}
 
