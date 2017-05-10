@@ -18,6 +18,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/jdarlin000/cj1e62kle002d2rtc41j3rk
 var heat;
 var asthmaDischarges = [];
 var treepoints = [];
+var zipLayer = L.geoJson(zips)
+var communityLayer = L.geoJson(community_districts)
 
 //  Load the the tree data
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
@@ -62,8 +64,6 @@ var markerCluster = L.markerClusterGroup.layerSupport({
 			showCoverageOnHover: false
 	
 		});
-zipLayer = L.geoJson(zips)
-communityLayer = L.geoJson(community_districts)
 
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_discharges_12_14.csv", function(data){
 	var counts = data.map(function(d){
@@ -90,7 +90,9 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_di
 function clearMap(){
 	layers = [heat, markerCluster, zipLayer, communityLayer];
 	for(var i = 0; i < layers.length; i++){
-		map.removeLayer(layers[i]);
+		if(map.hasLayer(layers[i]) == true){
+			map.removeLayer(layers[i]);
+		}
 	}
 };
 	
@@ -105,7 +107,6 @@ function treePoints() {
  	       		dashArray: '3'
     		};
 	}
-
 	/* Add zip geojson to map */
 	zipLayer = L.geoJson(zips, {style: style}).addTo(map);
 	map.addLayer(heat);
@@ -113,76 +114,142 @@ function treePoints() {
 
 function aqPoints(){
 	clearMap();
-	if (map.hasLayer(heat) == true){
-		map.removeLayer(heat);
-	}
 };
 
 
 // Load the asthma data
 function aqPoints1(){
-	function style(feature) {
-    		return {
-			fill: false,
-        		weight: 2,
-        		opacity: 1,
-        		color: 'gray',
- 	       		dashArray: '3'
-    		};
+	//clearMap();
+	var checked = document.getElementById("B0").checked;
+	if(checked == true){
+		function style(feature) {
+    			return {
+				fill: false,
+        			weight: 2,
+        			opacity: 1,
+        			color: 'gray',
+ 	       			dashArray: '3'
+    			};
+		}
+
+		/* Add zip geojson to map */
+		zipLayer = L.geoJson(zips, {style: style}).addTo(map);
+
+		/* Add cluster Layer */
+		markerCluster.addTo(map);
+	} else {
+		if(map.hasLayer(markerCluster)){
+			map.removeLayer(markerCluster);
+		}
 	}
-
-	/* Add zip geojson to map */
-	zipLayer = L.geoJson(zips, {style: style}).addTo(map);
-
-	/* Add cluster Layer */
-	markerCluster.addTo(map);
 }
 
 function pm25c(){
-/* Read Air Quality Measures Data */
-/* Arrays for Air Quality Measures */
-pm25 = []
-d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/Fine Particulate Matter (PM2.5).csv", function(data){
-	pm25 = data.map(function(p){
-			return [p.Year,p.Geography_id, p.Mean];
-		}); 
+	/* Read Air Quality Measures Data */
+	/* Arrays for Air Quality Measures */
+	//clearMap();
+	var checked = document.getElementById("B2").checked;
+        if(checked == true){
+		pm25 = []
+		d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/Fine Particulate Matter (PM2.5).csv", function(data){
+			pm25 = data.map(function(p){
+				return [p.Year,p.Geography_id, p.Mean];
+			}); 
 
-	function getColor(d){
-		var color;
-		for(var i = 0; i < pm25.length; i++){
-			if((Number(d) == Number(pm25[i][1])) && (pm25[i][0] == 'Annual Average 2014')){
-				if(Number(pm25[i][2]) > 14){
-					color = '#800026';
-				} else if(Number(pm25[i][2]) > 11){
-					color = '#BD0026';
-				} else if(Number(pm25[i][2]) > 10){
-					color = '#E31A1C';
-				} else if(Number(pm25[i][2]) > 9.5){
-					color = '#FC4E2A';
-				} else if(Number(pm25[i][2]) > 9){
-                                        color = '#FD8D3C';
-				}  else if(Number(pm25[i][2]) > 8.7){
-                                        color = '#FEB24C';
-				} else if(Number(pm25[i][2]) > 8){
-                                        color = '#FED976';
-                                } else{
-					color = '#FFEDA0';
+			function getColor(d){
+				var color;
+				for(var i = 0; i < pm25.length; i++){
+					if((Number(d) == Number(pm25[i][1])) && (pm25[i][0] == 'Annual Average 2014')){
+						if(Number(pm25[i][2]) > 14){
+							color = '#800026';
+						} else if(Number(pm25[i][2]) > 11){
+							color = '#BD0026';
+						} else if(Number(pm25[i][2]) > 10){
+							color = '#E31A1C';
+						} else if(Number(pm25[i][2]) > 9.5){
+							color = '#FC4E2A';
+						} else if(Number(pm25[i][2]) > 9){
+                        	                	color = '#FD8D3C';
+						}  else if(Number(pm25[i][2]) > 8.7){
+                                       			color = '#FEB24C';
+						} else if(Number(pm25[i][2]) > 8){
+        	                               		color = '#FED976';
+                	                	} else{
+							color = '#FFEDA0';
+						}
+					}
 				}
-			}
-		}
-		return color;
-	};
-
-	function cStyle(feature){
-		return {
-			fillColor: getColor(feature.properties.BoroCD),
-		        weight: 2,
-	        	opacity: 1,
-			color: 'white',
-		        dashArray: '3',
-	        	fillOpacity: 0.7
+			return color;
 		};
-	}
-	communityLayer = L.geoJson(community_districts, {style: cStyle}).addTo(map);
-	});	
+
+		function cStyle(feature){
+			return {
+				fillColor: getColor(feature.properties.BoroCD),
+		       		weight: 2,
+	        		opacity: 1,
+				color: 'white',
+		        	dashArray: '3',
+	        		fillOpacity: 0.7
+			};
+		}
+		communityLayer = L.geoJson(community_districts, {style: cStyle}).addTo(map);
+	})} else {
+		if(map.hasLayer(communityLayer)){
+			map.removeLayer(communityLayer)
+		}
+	}	
 };
+
+function blackCarbon(){
+	var checked = document.getElementById("B1").checked;
+        if(checked == true){	
+		bc = []
+		d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/Black Carbon.csv", function(data){
+			bc = data.map(function(p){
+				return [p.Year,p.Geography_id, p.Mean];
+			}); 
+			console.log(bc[0][2]);
+			function getColor(d){
+				var color;
+				for(var i = 0; i < bc.length; i++){
+					if((Number(d) == Number(bc[i][1])) && (bc[i][0] == 'Annual Average 2014')){
+						if(Number(bc[i][2]) >= 1.5){
+							color = '#000066'; 
+						} else if(Number(bc[i][2]) >= 1.4){
+							color = '#000099'; 
+						} else if(Number(bc[i][2]) >= 1.2){
+							color = '#4169e1'; 
+						} else if(Number(bc[i][2]) > 1.0){
+							color = '#5276e3';
+						} else if(Number(bc[i][2]) >= 0.8){
+                        	                	color = '#0066FF';
+						}  else if(Number(bc[i][2]) >= 0.7){
+                                       			color = '#3399FF';
+						} else if(Number(bc[i][2]) >= 0.6){
+        	                               		color = '#b9c8f4';
+                	                	} else{
+							color = '#edf1fc';
+						}
+					}
+				}
+			return color;
+		};
+
+		function bStyle(feature){
+			return {
+				fillColor: getColor(feature.properties.BoroCD),
+		       		weight: 2,
+	        		opacity: 1,
+				color: 'white',
+		        	dashArray: '3',
+	        		fillOpacity: 0.7
+			};
+		}
+		communityLayer1 = L.geoJson(community_districts, {style: bStyle}).addTo(map);
+	})} else {
+		if(map.hasLayer(communityLayer1)){
+			map.removeLayer(communityLayer1)
+		}
+	    }	
+	}
+
