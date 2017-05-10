@@ -20,6 +20,8 @@ var asthmaDischarges = [];
 var treepoints = [];
 var zipLayer = L.geoJson(zips)
 var communityLayer = L.geoJson(community_districts)
+var communityLayer1 = L.geoJson(community_districts)
+var communityLayer2 = L.geoJson(community_districts)
 
 //  Load the the tree data
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
@@ -88,7 +90,7 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/asthma_di
 
 
 function clearMap(){
-	layers = [heat, markerCluster, zipLayer, communityLayer];
+	layers = [heat, markerCluster, zipLayer, communityLayer, communityLayer1, communityLayer2];
 	for(var i = 0; i < layers.length; i++){
 		if(map.hasLayer(layers[i]) == true){
 			map.removeLayer(layers[i]);
@@ -253,3 +255,55 @@ function blackCarbon(){
 	}	
 }
 
+function no2(){
+	var checked = document.getElementById("B3").checked;
+        if(checked == true){	
+		bc = []
+		d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/Nitrogen Dioxide (NO2).csv", function(data){
+			bc = data.map(function(p){
+				return [p.Year,p.Geography_id, p.Mean];
+			}); 
+			function getColor(d){
+				var color;
+				for(var i = 0; i < bc.length; i++){
+					if((Number(d) == Number(bc[i][1])) && (bc[i][0] == 'Annual Average 2014')){
+						if(Number(bc[i][2]) >= 37){
+							color = '#003300'; 
+						} else if(Number(bc[i][2]) >= 30){
+							color = '#336600'; 
+						} else if(Number(bc[i][2]) >= 27){
+							color = '#339933'; 
+						} else if(Number(bc[i][2]) > 23){
+							color = '#00CC00';
+						} else if(Number(bc[i][2]) >= 20){
+                        	                	color = '#0cc977';
+						}  else if(Number(bc[i][2]) >=15 ){
+                                       			color = '#66FF66';
+						} else if(Number(bc[i][2]) >= 10){
+        	                               		color = '#a2c6a2';
+                	                	} else{
+							color = '#d0e2d0';
+						}
+					}
+				}
+				return color;
+			};
+
+			function bStyle(feature){
+				return {
+					fillColor: getColor(feature.properties.BoroCD),
+		       			weight: 2,
+	        			opacity: 1,
+					color: 'white',
+		        		dashArray: '3',
+	        			fillOpacity: 0.7
+				};
+			}
+			communityLayer = L.geoJson(community_districts, {style: bStyle}).addTo(map);
+		})
+	} else {
+		if(map.hasLayer(communityLayer)){
+			map.removeLayer(communityLayer)
+		}
+	}	
+}
