@@ -22,6 +22,7 @@ var zipLayer = L.geoJson(zips)
 var communityLayer = L.geoJson(community_districts)
 var communityLayer1 = L.geoJson(community_districts)
 var communityLayer2 = L.geoJson(community_districts)
+var legend
 
 //  Load the the tree data
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
@@ -142,6 +143,7 @@ function aqPoints1(){
 	} else {
 		if(map.hasLayer(markerCluster)){
 			map.removeLayer(markerCluster);
+			map.removeLayer(zipLayer);
 		}
 	}
 }
@@ -176,7 +178,7 @@ function pm25c(){
                                        			color = '#FEB24C';
 						} else if(Number(pm25[i][2]) > 8){
         	                               		color = '#FED976';
-                	                	} else{
+                	                	} else {
 							color = '#FFEDA0';
 						}
 					}
@@ -195,9 +197,32 @@ function pm25c(){
 			};
 		}
 		communityLayer = L.geoJson(community_districts, {style: cStyle}).addTo(map);
+
+		legend = L.control({position: 'bottomright'});
+		legend.onAdd = function (map) {
+		    map.legend = this;
+		    var div = L.DomUtil.create('div', 'info legend'),
+		    grades = [8, 8.7, 9, 9.5, 10, 11, 14],
+        	    palette = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
+    		    for (var i = 0; i < grades.length; i++) {
+       			 div.innerHTML +=
+           				 '<i style="background:' + palette[i] + '"></i> ' +
+            				 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+		    }
+	
+		    return div;
+		};
+		legend.onRemove = function(map){
+			delete map.legend;
+		}
+		legend.addTo(map);
+
 	})} else {
 		if(map.hasLayer(communityLayer)){
 			map.removeLayer(communityLayer)
+		}
+		if(map.legend){
+			legend.removeFrom(map);
 		}
 	}	
 };
