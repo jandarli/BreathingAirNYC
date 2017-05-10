@@ -22,7 +22,7 @@ var zipLayer = L.geoJson(zips)
 var communityLayer = L.geoJson(community_districts)
 var communityLayer1 = L.geoJson(community_districts)
 var communityLayer2 = L.geoJson(community_districts)
-var legend
+var legend, legend1, legend2
 
 //  Load the the tree data
 d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
@@ -216,8 +216,8 @@ function pm25c(){
 			delete map.legend;
 		}
 		legend.addTo(map);
-
-	})} else {
+	})
+	} else {
 		if(map.hasLayer(communityLayer)){
 			map.removeLayer(communityLayer)
 		}
@@ -272,10 +272,34 @@ function blackCarbon(){
 				};
 			}
 			communityLayer1 = L.geoJson(community_districts, {style: bStyle}).addTo(map);
+			
+			legend1 = L.control({position: 'bottomright'});
+			legend1.onAdd = function (map) {
+			    map.legend1 = this;
+			    var div = L.DomUtil.create('div', 'info legend'),
+			    grades = [0.6, 0.7, 0.8, 1.0, 1.2, 1.4, 1.5],
+        		    palette = ['#edf1fc', '#b9c8f4', '#3399FF', '#0066FF', '#5276e3', '#4169e1', '#000099', '#000066'];
+    			    for (var i = 0; i < grades.length; i++) {
+       				 div.innerHTML +=
+           				 '<i style="background:' + palette[i] + '"></i> ' +
+            				 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+		    	    }
+			    return div;
+			};
+		
+			legend1.onRemove = function(map){
+				delete map.legend1;
+			}
+	
+			legend1.addTo(map);
 		})
 	} else {
 		if(map.hasLayer(communityLayer1)){
 			map.removeLayer(communityLayer1)
+		}
+
+		if(map.legend1){
+			legend1.removeFrom(map)
 		}
 	}	
 }
@@ -324,11 +348,36 @@ function no2(){
 	        			fillOpacity: 0.7
 				};
 			}
-			communityLayer = L.geoJson(community_districts, {style: bStyle}).addTo(map);
+			communityLayer2 = L.geoJson(community_districts, {style: bStyle}).addTo(map);
+			
+			legend2 = L.control({position: 'bottomright'});
+			legend2.onAdd = function (map) {
+			    map.legend2 = this;
+			    var div = L.DomUtil.create('div', 'info legend'),
+			    grades = [10, 15, 20, 23, 27, 30, 37],
+        		    palette = ['#d0e2d0', '#a2c6a2', '#66FF66', '#0cc977', '#00CC00', '#339933','#336600', '#003300'];
+    			    for (var i = 0; i < grades.length; i++) {
+       				 div.innerHTML +=
+           				 '<i style="background:' + palette[i] + '"></i> ' +
+            				 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+		    	    }
+			    return div;
+			};
+		
+			legend2.onRemove = function(map){
+				delete map.legend2;
+			}
+	
+			legend2.addTo(map);
+			
 		})
 	} else {
-		if(map.hasLayer(communityLayer)){
-			map.removeLayer(communityLayer)
+		if(map.hasLayer(communityLayer2)){
+			map.removeLayer(communityLayer2)
+		}
+		
+		if(map.legend2){
+			legend2.removeFrom(map);
 		}
 	}	
 }
