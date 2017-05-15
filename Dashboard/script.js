@@ -196,18 +196,44 @@ function pm25c(){
 	        		fillOpacity: 0.7
 			};
 		}
-		communityLayer = L.geoJson(community_districts, {style: cStyle}).addTo(map);
+	
+		function highlightFeature(e) {
+   			 var layer = e.target;
+			 layer.setStyle({
+       				 weight: 5,
+      				 color: '#666',
+       				 dashArray: '',
+       				 fillOpacity: 0.7
+   			 });
 
+    			if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        			layer.bringToFront();
+    			}
+		}
+
+		function resetHighlight(e) {
+                                communityLayer.resetStyle(e.target);
+                        }
+		
+		function onEachFeature(feature, layer) {
+    				layer.on({
+					mouseover: highlightFeature,
+        				mouseout: resetHighlight,
+    				});
+		}
+
+		communityLayer = L.geoJson(community_districts, {style: cStyle, onEachFeature: onEachFeature}).addTo(map);
+		
 		legend = L.control({position: 'bottomright'});
 		legend.onAdd = function (map) {
-		    map.legend = this;
-		    var div = L.DomUtil.create('div', 'info legend'),
-		    grades = [8, 8.7, 9, 9.5, 10, 11, 14],
+		map.legend = this;
+		var div = L.DomUtil.create('div', 'info legend'),
+		    grades = [7, 8, 8.7, 9, 9.5, 10, 11, 14, 15],
         	    palette = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
     		    for (var i = 0; i < grades.length; i++) {
        			 div.innerHTML +=
            				 '<i style="background:' + palette[i] + '"></i> ' +
-            				 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            				 grades[i] + (grades[i+1] ? '&ndash;' + grades[i+1] + '<br>' : '+');
 		    }
 	
 		    return div;
@@ -216,6 +242,7 @@ function pm25c(){
 			delete map.legend;
 		}
 		legend.addTo(map);
+		
 	})
 	} else {
 		if(map.hasLayer(communityLayer)){
@@ -271,13 +298,40 @@ function blackCarbon(){
 	        			fillOpacity: 0.7
 				};
 			}
-			communityLayer1 = L.geoJson(community_districts, {style: bStyle}).addTo(map);
+				
+	
+			function highlightFeature(e) {
+   				 var layer1 = e.target;
+				 layer1.setStyle({
+       					 weight: 5,
+	      				 color: '#666',
+	       				 dashArray: '',
+       					 fillOpacity: 0.7
+   				 });
+
+    				if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        				layer1.bringToFront();
+    				}	
+			}
+		
+			function resetHighlight(e) {
+ 				communityLayer1.resetStyle(e.target);
+			}
+
+			function onEachFeature(feature, layer) {
+    				layer.on({
+      				        mouseover: highlightFeature,
+        				mouseout: resetHighlight,
+    				});
+			}
+
+			communityLayer1 = L.geoJson(community_districts, {style: bStyle, onEachFeature: onEachFeature}).addTo(map);
 			
 			legend1 = L.control({position: 'bottomright'});
 			legend1.onAdd = function (map) {
 			    map.legend1 = this;
 			    var div = L.DomUtil.create('div', 'info legend'),
-			    grades = [0.6, 0.7, 0.8, 1.0, 1.2, 1.4, 1.5],
+			    grades = [0.5, 0.6, 0.7, 0.8, 1.0, 1.2, 1.4, 1.5, 1.6],
         		    palette = ['#edf1fc', '#b9c8f4', '#3399FF', '#0066FF', '#5276e3', '#4169e1', '#000099', '#000066'];
     			    for (var i = 0; i < grades.length; i++) {
        				 div.innerHTML +=
@@ -348,18 +402,42 @@ function no2(){
 	        			fillOpacity: 0.7
 				};
 			}
-			communityLayer2 = L.geoJson(community_districts, {style: bStyle}).addTo(map);
+			function highlightFeature(e) {
+   				 var layer2 = e.target;
+				 layer2.setStyle({
+       					 weight: 5,
+	      				 color: '#666',
+	       				 dashArray: '',
+       					 fillOpacity: 0.7
+   				 });
+
+    				if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        				layer2.bringToFront();
+    				}	
+			}
+		
+			function resetHighlight(e) {
+ 				communityLayer2.resetStyle(e.target);
+			}
+
+			function onEachFeature(feature, layer) {
+    				layer.on({
+      				        mouseover: highlightFeature,
+        				mouseout: resetHighlight,
+    				});
+			}
+			communityLayer2 = L.geoJson(community_districts, {style: bStyle, onEachFeature: onEachFeature}).addTo(map);
 			
 			legend2 = L.control({position: 'bottomright'});
 			legend2.onAdd = function (map) {
 			    map.legend2 = this;
 			    var div = L.DomUtil.create('div', 'info legend'),
-			    grades = [10, 15, 20, 23, 27, 30, 37],
+			    grades = [5, 10, 15, 20, 23, 27, 30, 37, 40],
         		    palette = ['#d0e2d0', '#a2c6a2', '#66FF66', '#0cc977', '#00CC00', '#339933','#336600', '#003300'];
     			    for (var i = 0; i < grades.length; i++) {
        				 div.innerHTML +=
            				 '<i style="background:' + palette[i] + '"></i> ' +
-            				 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            				 grades[i] + (grades[i+1] ? '&ndash;' + grades[i+1] + '<br>' : '+');
 		    	    }
 			    return div;
 			};
