@@ -4,6 +4,21 @@ accessToken = 'pk.eyJ1IjoiamRhcmxpbjAwMCIsImEiOiJjajEzeDhtMXUwMXozMzhsamhwMTVjM3
 // initialize the map
 var map = L.map('map').setView([40.730610,-73.935242], 11);
 
+// Initialize borocd 
+var borodict = {101:"Financial District", 102:"Greenwich Village and Soho", 103:"Lower East Side and Chinatown", 104:"Clinton and Chelsea",
+               105:"Midtown", 106:"Stuyvesant Town and Turtle Bay", 107:"Upper West Side", 108:"Upper East Side", 109:"Morningside Heights and Hamilton Heights",
+               110:"Central Harlem", 111:"East Harlem", 112:"Washington Heights and Inwood", 201:"Mott Haven and Melrose", 202:"Hunts Point and Longwood", 
+  	       203: "Morrisania and Crotona", 204:"Highbridge and Concourse", 205:"Fordham and University Heights", 206:"Belmont and East Tremont", 
+               207:"Kingsbridge Heights and Bedford", 208:"Riverdale and Fieldston", 209:"Parkchester and Soundview", 210:"Throgs Neck and Co-op City",
+  	       211: "Morris Park and Bronxdale", 212:"Williamsbridge and Baychester", 301:"Greenpoint and Williamsburg", 302:"Fort Greene and Brooklyn Height",
+               303: "Bedford Stuyvesant", 304:"Bushwick", 305:"East New York and Starrett City", 306:"Park Slope and Carroll Gardens", 307:"Sunset Park", 
+	       308:"Crown Heights and Prospect Heights", 309:"South Crown Heights and Lefferts Gardens", 310:"Bay Ridge and Dyker Height", 311:"Bensonhurst",
+	       312:"Borough Park", 313:"Coney Island", 314:"Flatbush and Midwood", 315:"Sheepshead Bay", 316:"Brownsville", 317:"East Flatbush", 318:"Flatlands and Canarsie",
+	       401:"Long Island City and Astoria", 402:"Woodside and Sunnyside", 403:"Jackson Heights", 404:"Elmhurst and Corona", 405:"Ridgewood and Maspeth",
+   	       406:"Rego Park and Forest Hills", 407:"Flushing and Whitestone", 408:"Hillcrest and Fresh Meadows", 409:"Kew Gardens and Woodhaven",
+	       410:"South Ozone Park and Howard Beach", 411:"Bayside and Little Neck", 412:"Jamaica and Hollis", 413:"Queens Village", 414:"Rockaway and Broad Channel", 
+	       501:"St. George and Stapleton", 502:" South Beach and Willowbrook", 503: "Tottenville and Great Kills"};
+
 // load a tile layer
 L.tileLayer('https://api.mapbox.com/styles/v1/jdarlin000/cj1e62kle002d2rtc41j3rkbs/tiles/256/{z}/{x}/{y}?access_token=' + accessToken,
 {
@@ -22,6 +37,7 @@ var zipLayer = L.geoJson(zips)
 var communityLayer = L.geoJson(community_districts)
 var communityLayer1 = L.geoJson(community_districts)
 var communityLayer2 = L.geoJson(community_districts)
+var info = L.control();
 var legend, legend1, legend2
 
 //  Load the the tree data
@@ -34,8 +50,8 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 		radius: 10,
 		blur: 18,
 		gradient: {
-		         0.2: '#f9d884',
-     			 0.4: '#fd8d3c',
+		         0.2: '#8b0000',
+     			 0.4: '#ff5c5c',
 			 0.6: '#fd8d3c',
 		    	 0.8: '#f03b20',
      			 1: '#e2022f'
@@ -196,7 +212,28 @@ function pm25c(){
 	        		fillOpacity: 0.7
 			};
 		}
-	
+		
+		info.onAdd = function (map) {
+				 map.info = this;
+   				 this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+   				 this.update();
+   				 return this._div;
+				};
+
+		info.update = function (props) {
+				if(props){
+					for(var i = 0; i <pm25.length; i++){
+						if(props.BoroCD == pm25[i][1]){
+			   	 			this._div.innerHTML = '<h4> PM2.5 Measures </h4>' +  (props ?
+      				  			'<b>' + borodict[Number(props.BoroCD)] + '</b><br />'+ 'Mean measure: ' + pm25[i][2] 
+			        			: 'Hover over a community');
+						}
+					} 
+				}
+		};
+
+		info.addTo(map);
+
 		function highlightFeature(e) {
    			 var layer = e.target;
 			 layer.setStyle({
@@ -209,10 +246,12 @@ function pm25c(){
     			if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         			layer.bringToFront();
     			}
+			info.update(layer.feature.properties);
 		}
 
 		function resetHighlight(e) {
                                 communityLayer.resetStyle(e.target);
+				info.update();
                         }
 		
 		function onEachFeature(feature, layer) {
@@ -250,6 +289,9 @@ function pm25c(){
 		}
 		if(map.legend){
 			legend.removeFrom(map);
+		}
+		if(map.info){
+			info.removeFrom(map);
 		}
 	}	
 };
@@ -299,7 +341,26 @@ function blackCarbon(){
 				};
 			}
 				
-	
+			info.onAdd = function (map) {
+				 map.info = this;
+   				 this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+   				 this.update();
+   				 return this._div;
+				};
+
+			info.update = function (props) {
+				if(props){
+					for(var i = 0; i <bc.length; i++){
+						if(props.BoroCD == bc[i][1]){
+			   	 			this._div.innerHTML = '<h4> Black Carbon Measures </h4>' +  (props ?
+      				  			'<b>' + borodict[Number(props.BoroCD)] + '</b><br />'+ 'Mean measure: ' + bc[i][2] 
+			        			: 'Hover over a community');
+						}
+					} 
+				}
+			};
+
+			info.addTo(map);
 			function highlightFeature(e) {
    				 var layer1 = e.target;
 				 layer1.setStyle({
@@ -312,10 +373,12 @@ function blackCarbon(){
     				if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         				layer1.bringToFront();
     				}	
+				info.update(layer1.feature.properties);
 			}
 		
 			function resetHighlight(e) {
  				communityLayer1.resetStyle(e.target);
+				info.update();
 			}
 
 			function onEachFeature(feature, layer) {
@@ -354,6 +417,9 @@ function blackCarbon(){
 
 		if(map.legend1){
 			legend1.removeFrom(map)
+		}
+		if(map.info){
+			info.removeFrom(map);
 		}
 	}	
 }
@@ -402,6 +468,27 @@ function no2(){
 	        			fillOpacity: 0.7
 				};
 			}
+
+			info.onAdd = function (map) {
+                                 map.info = this;
+                                 this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+                                 this.update();
+                                 return this._div;
+                                };
+
+	                info.update = function (props) {
+                                if(props){
+                                        for(var i = 0; i <bc.length; i++){
+                                                if(props.BoroCD == bc[i][1]){
+                                                        this._div.innerHTML = '<h4> Nitrous Dioxide Measures </h4>' +  (props ?
+                                                        '<b>' + borodict[Number(props.BoroCD)] + '</b><br />'+ 'Mean measure: ' + bc[i][2]
+                                                        : 'Hover over a community');
+                                                }
+                                        }
+                                }
+        	        };
+                	info.addTo(map);
+
 			function highlightFeature(e) {
    				 var layer2 = e.target;
 				 layer2.setStyle({
@@ -414,10 +501,12 @@ function no2(){
     				if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         				layer2.bringToFront();
     				}	
+				info.update(layer2.feature.properties);
 			}
 		
 			function resetHighlight(e) {
  				communityLayer2.resetStyle(e.target);
+				info.update();
 			}
 
 			function onEachFeature(feature, layer) {
@@ -433,7 +522,7 @@ function no2(){
 			    map.legend2 = this;
 			    var div = L.DomUtil.create('div', 'info legend'),
 			    grades = [5, 10, 15, 20, 23, 27, 30, 37, 40],
-        		    palette = ['#d0e2d0', '#a2c6a2', '#66FF66', '#0cc977', '#00CC00', '#339933','#336600', '#003300'];
+        		    palette = ['#d0e2d0', '#a2c6a2', '#66FF66','#0cc977','#00CC00', '#339933',  '#336600', '#003300'];
     			    for (var i = 0; i < grades.length; i++) {
        				 div.innerHTML +=
            				 '<i style="background:' + palette[i] + '"></i> ' +
@@ -456,6 +545,9 @@ function no2(){
 		
 		if(map.legend2){
 			legend2.removeFrom(map);
+		}
+		if(map.info){
+			info.removeFrom(map);
 		}
 	}	
 }
