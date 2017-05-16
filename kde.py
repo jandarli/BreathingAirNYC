@@ -15,7 +15,7 @@ tree_longitudes = tree_df.longitude.tolist()
 xmint, xmaxt = min(tree_latitudes), max(tree_latitudes)
 ymint, ymaxt = min(tree_longitudes), max(tree_longitudes)
 
-X_tree, Y_tree = np.mgrid[xmint:xmaxt:100j, ymint:ymaxt:100j]
+X_tree, Y_tree = np.mgrid[xmint:xmaxt:50j, ymint:ymaxt:50j]
 positionst = np.vstack([X_tree.ravel(), Y_tree.ravel()])
 valuest = np.vstack([tree_latitudes, tree_longitudes])
 kernelt = stats.gaussian_kde(valuest)
@@ -47,7 +47,7 @@ xmina, xmaxa = min(air_latitudes), max(air_latitudes)
 ymina, ymaxa = min(air_longitudes), max(air_longitudes)
 
 
-X_air, Y_air = np.mgrid[xmina:xmaxa:100j, ymina:ymaxa:100j]
+X_air, Y_air = np.mgrid[xmina:xmaxa:50j, ymina:ymaxa:50j]
 X_air[np.isnan(X_air)] = 0
 Y_air[np.isnan(Y_air)] = 0
 positionsa = np.vstack([X_air.ravel(), Y_air.ravel()])
@@ -56,3 +56,19 @@ valuesa = np.vstack([air_latitudes, air_longitudes])
 valuesa[np.isnan(valuesa)] = 0
 kernela = stats.gaussian_kde(valuesa)
 Z_air = np.reshape(kernela(positionsa).T, X_air.shape)
+
+
+X_tree = X_tree.flatten()
+Y_tree = Y_tree.flatten()
+X_air = X_air.flatten()
+Y_air = Y_air.flatten()
+Z_tree = Z_tree.flatten()
+Z_air = Z_air.flatten()
+row = []
+
+# Write KDE values to csv
+with open("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/kde.csv", "w", newline ='') as fi:
+	writer = csv.writer(fi, delimiter=",")
+	for u, v, w, x, y, z in zip(X_tree, Y_tree, X_air, Y_air, Z_tree, Z_air):
+		row.append([u, v, w, x, y, z])
+	writer.writerows(row)

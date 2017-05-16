@@ -4,6 +4,13 @@
   height: 100%;
 }
 
+#container {
+    width: 300px;
+    color:white;
+    padding: 25px;
+    margin: 25px;
+}
+
 #data-controls {
 	width: 300px;
 	max-height: 300px;
