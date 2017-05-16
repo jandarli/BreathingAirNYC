@@ -4,12 +4,17 @@
   height: 100%;
 }
 
-#container {
+
+.container {
     width: 300px;
-    color:white;
+    height: 300px;
+    border: 0.5px solid grey;
     padding: 25px;
     margin: 25px;
+    background: white;
+    opacity: 0.3;
 }
+
 
 #data-controls {
 	width: 300px;

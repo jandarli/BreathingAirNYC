@@ -2,9 +2,9 @@
 accessToken = 'pk.eyJ1IjoiamRhcmxpbjAwMCIsImEiOiJjajEzeDhtMXUwMXozMzhsamhwMTVjM3d0In0.89axfVJUo6TZlva9kRyvbA';
 
 // initialize the map
-var map = L.map('map').setView([40.730610,-73.935242], 11);
+var map = L.map('map').setView([40.694523, -73.831677], 11);
 
-// Initialize borocd 
+// Initialize borocd dictionary  
 var borodict = {101:"Financial District", 102:"Greenwich Village and Soho", 103:"Lower East Side and Chinatown", 104:"Clinton and Chelsea",
                105:"Midtown", 106:"Stuyvesant Town and Turtle Bay", 107:"Upper West Side", 108:"Upper East Side", 109:"Morningside Heights and Hamilton Heights",
                110:"Central Harlem", 111:"East Harlem", 112:"Washington Heights and Inwood", 201:"Mott Haven and Melrose", 202:"Hunts Point and Longwood", 
@@ -38,6 +38,7 @@ var communityLayer = L.geoJson(community_districts)
 var communityLayer1 = L.geoJson(community_districts)
 var communityLayer2 = L.geoJson(community_districts)
 var info = L.control();
+var chart_area  = L.control({position: "topright"});
 var legend, legend1, legend2
 
 //  Load the the tree data
@@ -550,4 +551,24 @@ function no2(){
 			info.removeFrom(map);
 		}
 	}	
+}
+
+
+function scatter(){
+	var checked = document.getElementById("C0").checked;
+	if(checked == true){
+		d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/kde.csv", function(data){
+			chart_area.onAdd = function(map){
+				map.chart_area = this;
+				var div = L.DomUtil.create("div", "container");
+				div.innerHTML = '<div id="ch></div>';
+				return div;
+			}
+			chart_area.addTo(map);
+		});
+	} else {
+		if(map.chart_area) {
+			chart_area.removeFrom(map);
+		}
+	}
 }

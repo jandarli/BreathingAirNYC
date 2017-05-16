@@ -12,11 +12,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="map">
-     <div class="leaflet-top leaflet-right">
-        <div id="container"></div>
-     </div>
-  </div>
+  <div id="map"></div>
   <div id="data-controls">
   <div>
     <input type="radio" name="level0" value="A" id="A" onclick="treePoints();"/>
@@ -49,7 +45,7 @@
     <label for="C">Air Quality Complaints</label>
     <div class="sub1">
       <div>
-        <input type="radio" name="level1" value="C0" id="C0" />
+        <input type="checkbox" name="level1" value="C0" id="C0" onclick="scatter();"/>
         <label for="C0"> Tree Coverage </label>
       </div>
      </div>
