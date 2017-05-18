@@ -557,14 +557,22 @@ function no2(){
 function scatter(){
 	var checked = document.getElementById("C0").checked;
 	if(checked == true){
-		d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/kde.csv", function(data){
+		d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/kde.csv", function(d){
+			zair = d.map(function(d){
+				return d.Z_air;
+			})
+
+			ztree = d.map(function(d){
+				return d.Z_tree;
+			})
+				
 			chart_area.onAdd = function(map){
 				map.chart_area = this;
 				var div = L.DomUtil.create("div", "container");
 				return div;
 			}
 			chart_area.addTo(map);
-
+		
 			var chart1 = d3.select(".container").append("svg")
             		              .style('background', '#e6eaf2')
 				      .attr("width", 140)
@@ -596,6 +604,49 @@ function scatter(){
 				      .style("position", "absolute")
 				      .style("top", "180px")
 				      .style("left", "190px");
+			
+
+			var x1 = d3.scale.linear()
+				    .range([0, 160])
+				    .domain([d3.min(zair), d3.max(zair)]) 
+
+			var x2 = d3.scale.linear()
+				    .range([0, 160])
+				    .domain([d3.min(ztree), d3.max(ztree)])
+
+			var y1 = d3.scale.linear()
+				    .range([0, 120])
+				    .domain([d3.min(zair), d3.max(zair)]) 
+
+			var y2 = d3.scale.linear()
+				    .range([0, 120])
+				    .domain([d3.min(ztree), d3.max(ztree)])
+
+			 var xAxis1 = d3.svg.axis()
+    					.scale(x1)
+				        .orient("bottom")
+					.tick(8)
+			 
+			var xAxis2 = d3.svg.axis()
+    					.scale(x2)
+				        .orient("top")
+					.ticks(6) 
+	
+            		var yAxis1 = d3.svg.axis()
+    					.scale(y1)
+				        .orient("left")
+        				.ticks(6)
+    		
+		 	var yAxis2 = d3.svg.axis()
+    					.scale(y2)
+				        .orient("right")
+					.ticks(6)	
+    			
+			chart1.append("g")
+				    .attr("class", "x axis")
+				    .attr("transform", "translate(0," + 100 + ")")
+		           	    .style({'stroke': 'Black', 'fill': 'none', 'stroke-width': '0.5px'})
+				    .call(xAxis1)
 		});
 	} else {
 		if(map.chart_area) {
