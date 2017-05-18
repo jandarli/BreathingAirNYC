@@ -561,10 +561,41 @@ function scatter(){
 			chart_area.onAdd = function(map){
 				map.chart_area = this;
 				var div = L.DomUtil.create("div", "container");
-				div.innerHTML = '<div id="ch></div>';
 				return div;
 			}
 			chart_area.addTo(map);
+
+			var chart1 = d3.select(".container").append("svg")
+            		              .style('background', '#e6eaf2')
+				      .attr("width", 140)
+				      .attr("height", 120)
+				      .style("position", "absolute")
+				      .style("top", "30px")
+				      .style("left", "20px");
+	
+			var chart2 = d3.select(".container").append("svg")
+            		              .style('background', '#e6eaf2')
+				      .attr("width", 140)
+				      .attr("height", 120)
+				      .style("position", "absolute")
+				      .style("top", "30px")
+				      .style("left", "190px");
+
+			var chart3 = d3.select(".container").append("svg")
+            		              .style('background',  '#e6eaf2')
+				      .attr("width", 140)
+				      .attr("height", 120)
+				      .style("position", "absolute")
+				      .style("top", "180px")
+				      .style("left", "20px");
+
+			var chart4 = d3.select(".container").append("svg")
+            		              .style('background', '#e6eaf2')
+				      .attr("width", 140)
+				      .attr("height", 120)
+				      .style("position", "absolute")
+				      .style("top", "180px")
+				      .style("left", "190px");
 		});
 	} else {
 		if(map.chart_area) {
