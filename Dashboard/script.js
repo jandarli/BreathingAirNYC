@@ -51,11 +51,11 @@ d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Stre
 		radius: 10,
 		blur: 18,
 		gradient: {
-		         0.2: '#8b0000',
-     			 0.4: '#ff5c5c',
-			 0.6: '#fd8d3c',
-		    	 0.8: '#f03b20',
-     			 1: '#e2022f'
+		         0.2: '#F2DCDC',
+     			 0.4: '#E08F8F',
+			 0.6: '#D45D5D',
+		    	 0.8: '#D45D5D',
+     			 1: '#B80404'
    		 }		
 	 });
 });
@@ -553,6 +553,10 @@ function no2(){
 	}	
 }
 
+function aqc(){
+	clearMap();
+}
+
 
 function scatter(){
 	var checked = document.getElementById("C0").checked;
@@ -565,67 +569,78 @@ function scatter(){
 			ztree = d.map(function(d){
 				return d.Z_tree;
 			})
-				
+			console.log(zair[0]);
 			chart_area.onAdd = function(map){
 				map.chart_area = this;
-				var div = L.DomUtil.create("div", "container");
+					var div = L.DomUtil.create("div", "container");
 				return div;
 			}
 			chart_area.addTo(map);
-		
+			textarr = ["Tree Coverage"]
+			d3.select('.container')
+    				.selectAll('div')
+			        .data(textarr)
+	   		        .enter()
+	    	   	        .append('div')
+			        .text(function(d){
+				      return d;
+			    }).style({"position" :"relative", "left": "60px", "top":"80px", "font-family" : "Open Sans"
+					, "text-transform" :"uppercase"})
+
 			var chart1 = d3.select(".container").append("svg")
             		              .style('background', '#e6eaf2')
-				      .attr("width", 140)
-				      .attr("height", 120)
+				      .attr("width", 190)
+				      .attr("height", 160)
 				      .style("position", "absolute")
 				      .style("top", "30px")
-				      .style("left", "20px");
+				      .style("left", "30px")
+				      .style("z-index", -1);
 	
 			var chart2 = d3.select(".container").append("svg")
             		              .style('background', '#e6eaf2')
-				      .attr("width", 140)
-				      .attr("height", 120)
+				      .attr("width", 190)
+				      .attr("height", 160)
 				      .style("position", "absolute")
 				      .style("top", "30px")
-				      .style("left", "190px");
+				      .style("left", "240px");
 
 			var chart3 = d3.select(".container").append("svg")
             		              .style('background',  '#e6eaf2')
-				      .attr("width", 140)
-				      .attr("height", 120)
+				      .attr("width", 190)
+				      .attr("height", 160)
 				      .style("position", "absolute")
-				      .style("top", "180px")
-				      .style("left", "20px");
+				      .style("top", "200px")
+				      .style("left", "30px");
 
 			var chart4 = d3.select(".container").append("svg")
             		              .style('background', '#e6eaf2')
-				      .attr("width", 140)
-				      .attr("height", 120)
+				      .attr("width", 190)
+				      .attr("height", 160)
 				      .style("position", "absolute")
-				      .style("top", "180px")
-				      .style("left", "190px");
+				      .style("top", "200px")
+				      .style("left", "240px")
 			
-
+				
 			var x1 = d3.scale.linear()
-				    .range([0, 160])
-				    .domain([d3.min(zair), d3.max(zair)]) 
+				    .range([0, 145])
+				    .domain([0, 2590]) 
 
 			var x2 = d3.scale.linear()
-				    .range([0, 160])
-				    .domain([d3.min(ztree), d3.max(ztree)])
+				    .range([0, 145])
+				    .domain([0, 23])
 
 			var y1 = d3.scale.linear()
-				    .range([0, 120])
-				    .domain([d3.min(zair), d3.max(zair)]) 
+				    .range([120, 0])
+				    .domain([0, 2590]) 
 
 			var y2 = d3.scale.linear()
-				    .range([0, 120])
-				    .domain([d3.min(ztree), d3.max(ztree)])
+				    .range([120, 0])
+				    .domain([0, 23])
 
 			 var xAxis1 = d3.svg.axis()
     					.scale(x1)
 				        .orient("bottom")
-					.tick(8)
+					.ticks(3)
 			 
 			var xAxis2 = d3.svg.axis()
     					.scale(x2)
@@ -634,19 +649,69 @@ function scatter(){
 	
             		var yAxis1 = d3.svg.axis()
     					.scale(y1)
-				        .orient("left")
+				        .orient("right")
         				.ticks(6)
     		
 		 	var yAxis2 = d3.svg.axis()
     					.scale(y2)
-				        .orient("right")
-					.ticks(6)	
-    			
-			chart1.append("g")
+				        .orient("left")
+					.ticks(6)
+	
+			chart3.append("g")
 				    .attr("class", "x axis")
-				    .attr("transform", "translate(0," + 100 + ")")
+				    .attr("transform", "translate(" + 29 + "," + 140 + ")")
 		           	    .style({'stroke': 'Black', 'fill': 'none', 'stroke-width': '0.5px'})
-				    .call(xAxis1)
+				    .call(xAxis1) 
+			
+			chart3.append("g")
+				    .attr("class", "y axis")
+				    .attr("transform", "translate(" + 30 + "," + 20 +")")
+		           	    .style({'stroke': 'Black', 'fill': 'none', 'stroke-width': '0.5px'})
+				    .call(yAxis2) 
+			
+			/*Add secondary axes */	
+	
+			chart2.append("g")
+				    .attr("class", "x axis")
+				    .attr("transform", "translate(" + 5 + "," + 20 + ")")
+		           	    .style({'stroke': 'Black', 'fill': 'none', 'stroke-width': '0.5px'})
+				    .call(xAxis2) 
+			
+			chart2.append("g")
+				    .attr("class", "y axis")
+				    .attr("transform", "translate(" +  150  + "," + 20 +")")
+		           	    .style({'stroke': 'Black', 'fill': 'none', 'stroke-width': '0.5px'})
+				    .call(yAxis1) 
+		
+			chart3.append('g')
+				   .attr("transform", "translate("+ 30 + "," + 140 +  ")")
+				   .append('g')
+				   .append("scatter-dots")
+				   .data(d)
+				   .enter().append("circle")
+				   .style("fill", "blue")
+				   .attr("cx", function(d, i) {
+      					return x1(zair[i]);
+ 				   })
+				   .attr("cy", function(d, i) {
+				        return y2(ztree[i]);
+				   })
+				   .attr("r", 1);	
+	
+			chart2.append('g')
+				   .attr("transform", "translate("+ 160 + "," + 40 +  ")")
+				   .append('g')
+				   .append("scatter-dots2")
+				   .data(d)
+				   .enter().append("circle")
+				   .style("fill", "blue")
+				   .attr("cx", function(d, i) {
+      					return x1(ztree[i]);
+ 				   })
+				   .attr("cy", function(d, i) {
+				        return y2(zair[i]);
+				   })
+				   .attr("r", 5);	
 		});
 	} else {
 		if(map.chart_area) {
