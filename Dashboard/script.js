@@ -34,6 +34,7 @@ var heat;
 var asthmaDischarges = [];
 var treepoints = [];
 var zipLayer = L.geoJson(zips)
+var zipLayer2 = L.geoJson(zips)
 var communityLayer = L.geoJson(community_districts)
 var communityLayer1 = L.geoJson(community_districts)
 var communityLayer2 = L.geoJson(community_districts)
@@ -569,7 +570,7 @@ function scatter(){
 			ztree = d.map(function(d){
 				return d.Z_tree;
 			})
-			console.log(zair[0]);
+
 			chart_area.onAdd = function(map){
 				map.chart_area = this;
 					var div = L.DomUtil.create("div", "container");
@@ -578,7 +579,7 @@ function scatter(){
 			chart_area.addTo(map);
 			textarr = ["Tree Coverage"]
 			d3.select('.container')
-    				.selectAll('div')
+				.select('div')
 			        .data(textarr)
 	   		        .enter()
 	    	   	        .append('div')
@@ -587,6 +588,16 @@ function scatter(){
 			    }).style({"position" :"relative", "left": "60px", "top":"80px", "font-family" : "Open Sans"
 					, "text-transform" :"uppercase"})
 
+			textarr2 = ["AQ Complaints"]
+			d3.select('.container')
+			        .data(textarr2)
+	   		        .enter()
+	    	   	        .append('div')
+			        .text(function(d){
+				      return d;
+			    }).style({"position" :"relative", "left": "200px", "top":"200px", "font-family" : "Open Sans"
+					, "text-transform" :"uppercase"})
+	
 			var chart1 = d3.select(".container").append("svg")
             		              .style('background', '#e6eaf2')
 				      .attr("width", 190)
@@ -717,5 +728,88 @@ function scatter(){
 		if(map.chart_area) {
 			chart_area.removeFrom(map);
 		}
+	}
+}
+
+
+function treeFreq(){
+	freq = {}
+	var checked = document.getElementById("C1").checked
+	if(checked == true){
+		d3.csv("/Volumes/USB20FD/Spring2017/Visualization/Project/Project_Data/2015_Street_Tree_Census_-_Tree_Data.csv", function(data){
+			for(var i =0; i < data.length; i++){
+				var zip = data[i].zipcode;
+				if(freq[zip]){
+					freq[zip]++;
+				} else {
+					freq[zip] = 1;
+				}
+			}
+		
+			function getColor(d){
+				var color;
+				if(freq[d]){
+					if(Number(freq[d]) > 20000){
+						color = '#800026';
+					} else if(Number(freq[d]) > 10000){
+						color = '#BD0026';
+					} else if(Number(freq[d]) > 8000){
+						color = '#E31A1C' ;
+					} else if (Number(freq[d]) > 6000){
+						color = '#FC4E2A';
+					} else if (Number(freq[d]) > 4000){
+						color = '#FD8D3C';
+					} else if(Number(freq[d]) > 2000){
+						color = '#FEB24C';
+					} else if(Number(freq[d]) > 1000) {
+						color = '#FED976';
+					} else {
+						color = '#FFEDA0';
+					}
+				}
+				return color;
+			}
+
+			function cStyle(feature){
+                       		return {
+                                	fillColor: getColor(feature.properties.postalCode),
+	                                weight: 2,
+        	                        opacity: 1,
+        	                        color: 'white',
+                	                dashArray: '3',
+                        	        fillOpacity: 0.7
+	                        };
+        	        }
+		
+			zipLayer2 = L.geoJson(zips, {style: cStyle}).addTo(map);
+		
+			legend3 = L.control({position: 'bottomright'});
+	                legend3.onAdd = function (map) {
+	                map.legend3 = this;
+        	        var div = L.DomUtil.create('div', 'info legend2'),
+                        grades = [".5k", "1k", "2k", "4k", "6k", "8k", "10k", "20k", "21k"],
+                        palette = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026', '#5e110a'];
+    	                for (var i = 0; i < grades.length; i++) {
+        	                 div.innerHTML +=
+                	                         '<i style="background:' + palette[i] + '"></i> ' +
+                        	                 grades[i] + (grades[i+1] ? '&ndash;' + grades[i+1] + '<br>' : '+');
+                   	    }
+                	    return div;
+              	  	};
+
+	                legend3.onRemove = function(map){
+        	                delete map.legend3;
+               		 }
+
+	                legend3.addTo(map);
+		})
+	} else {
+		if(map.hasLayer(zipLayer2)){
+			map.removeLayer(zipLayer2);
+		}
+		
+		if(map.legend3){
+			legend3.removeFrom(map);
+		} 
 	}
 }

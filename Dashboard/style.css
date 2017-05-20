@@ -93,18 +93,32 @@ input[type="radio"]{
 }
 
 .legend {
-    line-height: 16px;
+    line-height: 18px;
     color: #555;
 }
 
 .legend i {
-    width: 40px;
+    width: 35px;
     height: 18px;
     float: left;
     margin-right: 8px;
     opacity: 0.7;
 }
 
+.legend2{
+   line-height: 16px;
+   display: inline;
+   color: #555;
+}
+
+.legend2 i{
+   width: 35px;
+   height: 16px;
+   float: left;
+   margin-right: 8px;
+   opacity: 0.7;
+
+}
 .info {
     padding: 6px 8px;
     font: 14px/16px Arial, Helvetica, sans-serif;
